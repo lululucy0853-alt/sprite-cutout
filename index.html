@@ -166,7 +166,7 @@
         <div class="sec">
           <label>导出</label>
           <span class="btn acc" onclick="copyBorders()">复制边距数值</span>
-          <span class="btn" onclick="exportNine()">导出九块 PNG</span>
+          <span class="btn" onclick="exportCompact()">导出九宫格图（紧凑）</span>
           <div class="hint" id="copyMsg" style="margin-top:8px"></div>
         </div>
 
@@ -176,7 +176,7 @@
           · Unity Sprite Border：<code>L,B,R,T</code>（左下右上）<br>
           · CSS：<code>border-image-slice: T R B L</code> + <code>border-width</code><br>
           · Cocos scale9 / Laya：四个 inset 数值直接填<br>
-          · 自研引擎：用「导出九块」拿到 9 张图
+          · 自研引擎：用「导出九宫格图（紧凑）」拿到一张中缝压 1px 的小图 + 上面的边距
         </div>
       </div>
 
@@ -424,20 +424,26 @@ function copyBorders(){
   const txt = `左${L} 右${R} 上${T} 下${B}  |  Unity(L,B,R,T)=${L},${B},${R},${T}  |  CSS border-image-slice: ${T} ${R} ${B} ${L}`;
   navigator.clipboard.writeText(txt).then(()=>{ $('copyMsg').textContent='已复制：'+txt; }, ()=>{ $('copyMsg').textContent=txt; });
 }
-function exportNine(){
+// 导出紧凑九宫格图：中缝（可拉伸的中行/中列）压成 1px，四角四边向内合拢成一张更小的图。
+// 四角尺寸不变 → 边距 L/R/T/B 保持原值，引擎直接用这张小图 + 边距即可拉伸还原。
+function exportCompact(){
   const {L,R,T,B}=clampBorders();
-  const xs=[0,L,natW-R,natW], ys=[0,T,natH-B,natH];
-  const names=[['tl','tc','tr'],['ml','mc','mr'],['bl','bc','br']];
-  let n=0;
+  const midW=1, midH=1;                       // 中缝压到 1px
+  const mSrcW=natW-L-R, mSrcH=natH-T-B;        // 原图中间可拉伸区尺寸
+  // 三段：源起点/源尺寸/目标起点/目标尺寸（角=原样，边/心=压到 1px）
+  const sxs=[0,L,natW-R],   sws=[L,mSrcW,R];
+  const sys=[0,T,natH-B],   shs=[T,mSrcH,B];
+  const dxs=[0,L,L+midW],   dws=[L,midW,R];
+  const dys=[0,T,T+midH],   dhs=[T,midH,B];
+  const outW=L+midW+R, outH=T+midH+B;
+  const c=document.createElement('canvas'); c.width=outW; c.height=outH;
+  const ctx=c.getContext('2d'); ctx.imageSmoothingEnabled=false;
   for(let j=0;j<3;j++)for(let i=0;i<3;i++){
-    const sx=xs[i], sw=xs[i+1]-xs[i], sy=ys[j], sh=ys[j+1]-ys[j];
-    if(sw<=0||sh<=0) continue;
-    const c=document.createElement('canvas'); c.width=sw; c.height=sh;
-    c.getContext('2d').drawImage(img, sx,sy,sw,sh, 0,0,sw,sh);
-    c.toBlob(b=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`${basename}_${names[j][i]}.png`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); });
-    n++;
+    if(sws[i]<=0||shs[j]<=0||dws[i]<=0||dhs[j]<=0) continue;
+    ctx.drawImage(img, sxs[i],sys[j],sws[i],shs[j], dxs[i],dys[j],dws[i],dhs[j]);
   }
-  $('copyMsg').textContent = `已导出 ${n} 块（后缀 tl/tc/tr…）`;
+  c.toBlob(b=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`${basename}_9slice.png`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); });
+  $('copyMsg').textContent = `已导出紧凑九宫格图 ${outW}×${outH}（原图 ${natW}×${natH}，中缝压 1px；边距 L${L} R${R} T${T} B${B} 不变）`;
 }
 
 loadSample();   // 9-slice 后台先备好示例图
