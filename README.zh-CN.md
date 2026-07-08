@@ -12,6 +12,14 @@
 
 ---
 
+## 🌐 在线使用
+
+**在线地址 → https://lululucy0853-alt.github.io/sprite-cutout/**
+
+打开链接直接开切 —— 免安装、免配置。全程本地运行、离线可用,图片绝不上传。
+
+---
+
 ## ✨ 功能
 
 ### ✂️ 裁透明边
@@ -27,6 +35,13 @@
 ## 🔒 隐私
 
 纯前端处理,图片只在你本地浏览器里处理,**绝不上传**。
+
+## 🛫 自己部署
+
+就是一个静态 HTML 文件 —— 放到任意静态托管上一分钟搞定。
+
+- **Cloudflare Pages**(推荐):后台 → *Workers & Pages → Create → Pages → 连接 Git* → 选这个仓库 → **构建命令:_留空_**,**输出目录:`/`**。在同一后台加自定义域名即可。
+- **GitHub Pages**:仓库 **Settings → Pages → Source:_Deploy from a branch_ → `main` / `(root)`**,上线地址 `https://<用户名>.github.io/sprite-cutout/`。
 
 ## 🛠 技术
 

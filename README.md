@@ -12,6 +12,14 @@
 
 ---
 
+## 🌐 Use it online
+
+**Live → https://lululucy0853-alt.github.io/sprite-cutout/**
+
+Open the link and start cutting — no install, no setup. Everything runs client-side and offline; images are never uploaded.
+
+---
+
 ## ✨ Features
 
 ### ✂️ Trim transparent edges
@@ -27,6 +35,13 @@ Just open **`index.html`** in a browser (Chrome / Edge recommended). No install,
 ## 🔒 Privacy
 
 100% client-side. Images are processed in your browser and **never uploaded** anywhere.
+
+## 🛫 Deploy your own
+
+It's a single static HTML file — put it on any static host in a minute.
+
+- **Cloudflare Pages** (recommended): dashboard → *Workers & Pages → Create → Pages → Connect to Git* → pick this repo → **Build command: _(none)_**, **Output directory: `/`**. Add a custom domain in the same dashboard.
+- **GitHub Pages**: repo **Settings → Pages → Source: _Deploy from a branch_ → `main` / `(root)`**. It goes live at `https://<user>.github.io/sprite-cutout/`.
 
 ## 🛠 Tech
 
