@@ -14,7 +14,7 @@
 
 ## 🌐 在线使用
 
-**在线地址 → https://lululucy0853-alt.github.io/sprite-cutout/**
+**在线地址 → https://wanglustudio.com/tools/sprite-cutout/**
 
 打开链接直接开切 —— 免安装、免配置。全程本地运行、离线可用,图片绝不上传。
 

@@ -14,7 +14,7 @@
 
 ## 🌐 Use it online
 
-**Live → https://lululucy0853-alt.github.io/sprite-cutout/**
+**Live → https://wanglustudio.com/tools/sprite-cutout/**
 
 Open the link and start cutting — no install, no setup. Everything runs client-side and offline; images are never uploaded.
 
